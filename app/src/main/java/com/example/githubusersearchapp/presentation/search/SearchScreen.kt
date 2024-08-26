@@ -24,10 +24,22 @@ import androidx.compose.ui.res.painterResource
 import com.example.githubusersearchapp.presentation.search.components.UserList
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel) {
+fun SearchScreen(viewModel: SearchViewModel,
+                 onUserClick: (String) -> Unit) {
     val state by viewModel.state.collectAsState()
 
     Column(modifier = Modifier.padding(16.dp)) {
+
+        Text(
+            text = "GitHub Users",
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
         SearchBar(
             query = state.query,
             onQueryChanged = { viewModel.onEvent(SearchEvent.OnQueryChanged(it)) },
@@ -48,7 +60,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
             }
             state.searchResults != null -> {
                 state.searchResults?.let { users ->
-                    UserList(users = users)
+                    UserList(users = users, onUserClick = onUserClick)
                 } ?: run {
                     Text(text = "No results found")
                 }
@@ -56,6 +68,10 @@ fun SearchScreen(viewModel: SearchViewModel) {
         }
     }
 }
+
+
+
+
 @Composable
 fun SearchBar(
     query: String,
@@ -65,11 +81,15 @@ fun SearchBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .clip(RoundedCornerShape(9.dp))
-            .border(3.dp, Color.Black),
-        color = MaterialTheme.colorScheme.surface
-    ) {
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .clip(RoundedCornerShape(12.dp)),
+
+        color = MaterialTheme.colorScheme.surface,
+
+        shadowElevation = 4.dp,
+
+    )
+    {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier

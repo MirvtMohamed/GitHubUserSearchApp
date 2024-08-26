@@ -1,5 +1,6 @@
 package com.example.githubusersearchapp
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,24 +11,32 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.githubusersearchapp.data.remote.ApiClient
 import com.example.githubusersearchapp.data.repository.GitHubUserRepositoryImpl
+import com.example.githubusersearchapp.navigation.NavGraph
 import com.example.githubusersearchapp.presentation.details.DetailsScreen
+import com.example.githubusersearchapp.presentation.details.viewmodel.DetailsViewModel
+import com.example.githubusersearchapp.presentation.details.viewmodel.DetailsViewModelFactory
 import com.example.githubusersearchapp.presentation.search.SearchScreen
 import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewModel
 import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-
-    private val viewModel: SearchViewModel by viewModels {
+    private val searchViewModel: SearchViewModel by viewModels {
         SearchViewModelFactory(GitHubUserRepositoryImpl(ApiClient))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            SearchScreen(viewModel = viewModel)
 
+        setContent {
+            val navController = rememberNavController()
+            MainContent(navController = navController, searchViewModel = searchViewModel)
         }
     }
+}
+
+@Composable
+fun MainContent(navController: androidx.navigation.NavHostController, searchViewModel: SearchViewModel) {
+    NavGraph(navController = navController, searchViewModel = searchViewModel)
 }
 

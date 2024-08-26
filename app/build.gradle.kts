@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.ui)
     implementation(libs.material3)
+    implementation (libs.androidx.navigation.compose.v250)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

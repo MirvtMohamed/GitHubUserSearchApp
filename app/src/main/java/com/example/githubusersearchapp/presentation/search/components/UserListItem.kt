@@ -2,6 +2,7 @@ package com.example.githubusersearchapp.presentation.search.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,11 +21,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.githubusersearchapp.data.model.Item
 
 @Composable
-fun UserListItem(user: Item) {
+fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable { onUserClick(user.login) },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -36,7 +38,6 @@ fun UserListItem(user: Item) {
                 .height(80.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Image(
                 painter = rememberAsyncImagePainter(model = user.avatar_url),
                 contentDescription = "User Avatar",
@@ -47,7 +48,6 @@ fun UserListItem(user: Item) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-
                 Text(
                     text = user.login,
                     style = MaterialTheme.typography.titleMedium.copy(
