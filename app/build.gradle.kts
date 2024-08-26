@@ -67,6 +67,10 @@ dependencies {
     implementation (libs.coil.compose)
     implementation(libs.gson)
     implementation(libs.glide)
+    implementation(libs.androidx.material)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.ui)
+    implementation(libs.material3)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

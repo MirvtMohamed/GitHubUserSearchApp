@@ -1,42 +1,100 @@
+
 package com.example.githubusersearchapp.ui.search
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.githubusersearchapp.viewmodel.GitHubUserViewModel
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
+import com.example.githubusersearchapp.ui.search.components.UserList
 
 @Composable
 fun SearchScreen(viewModel: GitHubUserViewModel) {
-    val searchQuery = remember { mutableStateOf("") }
-    val searchResults by viewModel.userSearchResult.collectAsState()
-    val isLoading = searchResults == null
+    val state by viewModel.state.collectAsState()
 
     Column(modifier = Modifier.padding(16.dp)) {
         SearchBar(
-            query = searchQuery.value,
-            onQueryChanged = { searchQuery.value = it },
-            onSearch = { viewModel.searchUsers(searchQuery.value, 1) }
+            query = state.query,
+            onQueryChanged = { viewModel.onEvent(SearchEvent.OnQueryChanged(it)) },
+            onSearch = { viewModel.onEvent(SearchEvent.OnSearch) }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else {
-            searchResults?.let { response ->
-                if (response.isSuccessful) {
-                    response.body()?.items?.let { users ->
-                        UserList(users = users)
-                    }
-                } else {
-                    Text("Error: ${response.message()}")
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
+            state.errorMessage != null -> {
+                Text(
+                    text = state.errorMessage ?: "Unknown error",
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+            state.searchResults != null -> {
+                state.searchResults?.let { users ->
+                    UserList(users = users)
+                } ?: run {
+                    Text(text = "No results found")
                 }
             }
+        }
+    }
+}
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChanged: (String) -> Unit,
+    onSearch: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .border(1.dp, Color.Black),
+        color = MaterialTheme.colorScheme.surface
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            Icon(
+                painter = painterResource(id = android.R.drawable.ic_menu_search),
+                contentDescription = "Search Icon",
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .clickable { onSearch() }
+                    .padding(end = 8.dp)
+            )
+
+            BasicTextField(
+                value = query,
+                onValueChange = onQueryChanged,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
+                singleLine = true,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 8.dp)
+            )
         }
     }
 }
