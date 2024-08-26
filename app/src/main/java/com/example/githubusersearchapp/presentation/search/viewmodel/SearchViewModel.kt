@@ -1,20 +1,16 @@
-package com.example.githubusersearchapp.viewmodel
+package com.example.githubusersearchapp.presentation.search.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.githubusersearchapp.data.model.UserResponse
 import com.example.githubusersearchapp.data.repository.GitHubUserRepository
-import com.example.githubusersearchapp.ui.search.SearchEvent
-import com.example.githubusersearchapp.ui.search.SearchState
+import com.example.githubusersearchapp.presentation.search.SearchEvent
+import com.example.githubusersearchapp.presentation.search.SearchState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 
-
-class GitHubUserViewModel(private val repository: GitHubUserRepository) : ViewModel() {
+class SearchViewModel(private val repository: GitHubUserRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchState())
     val state: StateFlow<SearchState> = _state
@@ -27,6 +23,8 @@ class GitHubUserViewModel(private val repository: GitHubUserRepository) : ViewMo
             is SearchEvent.OnSearch -> {
                 searchUsers()
             }
+            //navigation
+
         }
     }
 
@@ -58,35 +56,3 @@ class GitHubUserViewModel(private val repository: GitHubUserRepository) : ViewMo
         }
     }
 }
-
-/*package com.example.githubusersearchapp.viewmodel
-
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.githubusersearchapp.data.model.UserResponse
-import com.example.githubusersearchapp.data.repository.GitHubUserRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import retrofit2.Response
-
-class GitHubUserViewModel(private val repository: GitHubUserRepository) : ViewModel() {
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-
-    private val _userSearchResult = MutableStateFlow<Response<UserResponse>?>(null)
-    val userSearchResult: StateFlow<Response<UserResponse>?> = _userSearchResult.asStateFlow()
-
-    fun searchUsers(query: String, page: Int) {
-        if (query.isBlank()) return  // Don't search for empty queries
-        _isLoading.value = true
-        viewModelScope.launch {
-            val response = repository.searchUsers(query, page)
-            _userSearchResult.value = response
-            _isLoading.value = false
-        }
-    }
-}
-
-***/

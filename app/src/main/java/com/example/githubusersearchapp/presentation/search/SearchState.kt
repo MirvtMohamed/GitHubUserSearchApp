@@ -1,4 +1,4 @@
-package com.example.githubusersearchapp.ui.search
+package com.example.githubusersearchapp.presentation.search
 
 import com.example.githubusersearchapp.data.model.Item
 

@@ -1,4 +1,4 @@
-package com.example.githubusersearchapp.ui.search.components
+package com.example.githubusersearchapp.presentation.search.components
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

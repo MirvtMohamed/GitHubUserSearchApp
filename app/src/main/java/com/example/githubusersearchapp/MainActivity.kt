@@ -4,18 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.githubusersearchapp.data.remote.ApiClient
 import com.example.githubusersearchapp.data.repository.GitHubUserRepositoryImpl
-import com.example.githubusersearchapp.ui.search.SearchScreen
-import com.example.githubusersearchapp.viewmodel.GitHubUserViewModel
-import com.example.githubusersearchapp.viewmodel.GitHubUserViewModelFactory
+import com.example.githubusersearchapp.presentation.details.DetailsScreen
+import com.example.githubusersearchapp.presentation.search.SearchScreen
+import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewModel
+import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-    // Create the ViewModel using the factory
-    private val viewModel: GitHubUserViewModel by viewModels {
-        GitHubUserViewModelFactory(GitHubUserRepositoryImpl(ApiClient))
+
+    private val viewModel: SearchViewModel by viewModels {
+        SearchViewModelFactory(GitHubUserRepositoryImpl(ApiClient))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
