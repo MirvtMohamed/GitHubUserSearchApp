@@ -1,5 +1,5 @@
 
-package com.example.githubusersearchapp.ui.search
+package com.example.githubusersearchapp.presentation.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,17 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.githubusersearchapp.viewmodel.GitHubUserViewModel
+import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewModel
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
-import com.example.githubusersearchapp.ui.search.components.UserList
+import com.example.githubusersearchapp.presentation.search.components.UserList
 
 @Composable
-fun SearchScreen(viewModel: GitHubUserViewModel) {
+fun SearchScreen(viewModel: SearchViewModel) {
     val state by viewModel.state.collectAsState()
 
     Column(modifier = Modifier.padding(16.dp)) {
@@ -66,8 +66,8 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .border(1.dp, Color.Black),
+            .clip(RoundedCornerShape(9.dp))
+            .border(3.dp, Color.Black),
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
