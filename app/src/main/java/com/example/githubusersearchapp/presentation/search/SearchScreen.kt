@@ -111,7 +111,7 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .shadow(8.dp, RoundedCornerShape(12.dp)) // Explicit shadow with rounded corners
+            .shadow(8.dp, RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp)),
         color = MaterialTheme.colorScheme.surface,
     ) {

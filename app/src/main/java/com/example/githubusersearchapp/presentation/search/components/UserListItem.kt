@@ -41,7 +41,7 @@ fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
                 painter = rememberAsyncImagePainter(model = user.avatar_url),
                 contentDescription = "User Avatar",
                 modifier = Modifier
-                    .size(100.dp) // Increased image size
+                    .size(100.dp)
                     .clip(CircleShape)
                     //.border(1.dp, Color.Black, CircleShape)
             )

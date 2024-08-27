@@ -2,6 +2,7 @@ package com.example.githubusersearchapp.navigation
 
 
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,7 +21,6 @@ import com.example.githubusersearchapp.presentation.search.viewmodel.SearchViewM
 
 
 
-
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -36,10 +36,18 @@ fun NavGraph(
             )
         }
         composable(NavigationRoutes.DETAILS) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
-            val detailsViewModelFactory = DetailsViewModelFactory(GitHubUserRepositoryImpl(ApiClient), userId)
-            val detailsViewModel: DetailsViewModel = viewModel(factory = detailsViewModelFactory)
+            val userId = backStackEntry.arguments?.getString("userId")
+            if (userId == null) {
+                Log.e("NavGraph", "User ID is null")
+                navController.popBackStack() // Navigate back if userId is null
+                return@composable
+            }
+            val detailsViewModel: DetailsViewModel = viewModel(factory = createDetailsViewModelFactory(userId))
             DetailsScreen(navController = navController, viewModel = detailsViewModel)
         }
     }
+}
+
+private fun createDetailsViewModelFactory(userId: String): DetailsViewModelFactory {
+    return DetailsViewModelFactory(GitHubUserRepositoryImpl(ApiClient), userId)
 }
