@@ -23,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
@@ -100,7 +101,6 @@ fun SearchScreen(
     }
 }
 
-
 @Composable
 fun SearchBar(
     query: String,
@@ -111,15 +111,14 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
+            .shadow(8.dp, RoundedCornerShape(12.dp)) // Explicit shadow with rounded corners
             .clip(RoundedCornerShape(12.dp)),
         color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 4.dp,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .background(MaterialTheme.colorScheme.surface)
         ) {
             BasicTextField(
                 value = query,
@@ -129,8 +128,7 @@ fun SearchBar(
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .weight(1f)
-                    .padding(vertical = 8.dp)
-                    .background(Color.Transparent),
+                    .padding(vertical = 8.dp),
                 decorationBox = { innerTextField ->
                     if (query.isEmpty()) {
                         Text(
