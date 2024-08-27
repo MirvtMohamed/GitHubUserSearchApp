@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.githubusersearchapp.data.model.Item
-
 @Composable
 fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
     Card(
@@ -27,7 +26,7 @@ fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable { onUserClick(user.login) },
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp), // Increased rounded corners
         elevation = CardDefaults.elevatedCardElevation(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
@@ -35,16 +34,16 @@ fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
-                .height(80.dp),
+                .height(120.dp), // Increased card height
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = user.avatar_url),
                 contentDescription = "User Avatar",
                 modifier = Modifier
-                    .size(75.dp)
+                    .size(100.dp) // Increased image size
                     .clip(CircleShape)
-                    .border(2.dp, Color.Black, CircleShape)
+                    //.border(1.dp, Color.Black, CircleShape)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
@@ -57,6 +56,12 @@ fun UserListItem(user: Item, onUserClick: (String) -> Unit) {
                 )
                 Text(
                     text = "ID: ${user.id}",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
+                Text(
+                    text = "Type: ${user.type}", // Display user type
                     style = MaterialTheme.typography.bodySmall.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )

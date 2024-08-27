@@ -23,13 +23,13 @@ class SearchViewModel(private val repository: GitHubUserRepository) : ViewModel(
             is SearchEvent.OnSearch -> {
                 searchUsers()
             }
-            //navigation
+
 
         }
     }
 
     private fun searchUsers() {
-        if (_state.value.query.isBlank()) return  // Don't search for empty queries
+        if (_state.value.query.isBlank()) return
 
         _state.value = _state.value.copy(isLoading = true, errorMessage = null)
         viewModelScope.launch {

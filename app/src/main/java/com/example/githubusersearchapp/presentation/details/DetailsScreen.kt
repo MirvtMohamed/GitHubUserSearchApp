@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,12 +31,21 @@ fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "User Details") },
+                title = {
+                    Text(
+                        text = "User Details",
+                        color = Color.White
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF24292E) // GitHub dark gray color
+                ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = Color.White
                         )
                     }
                 }
@@ -66,7 +76,7 @@ fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel) {
                         painter = rememberAsyncImagePainter(model = user.avatar_url),
                         contentDescription = "User Avatar",
                         modifier = Modifier
-                            .size(120.dp)
+                            .size(200.dp)
                             .clip(CircleShape)
                             .align(Alignment.CenterHorizontally)
                     )
